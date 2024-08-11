@@ -1,18 +1,12 @@
 // NPM Packages
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+
+// Project Imports
+import ProgressBar from './ProgressBar';
+
 const DELAY = 3000;
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
-  const [remainingTime, setRemainingTime] = useState(DELAY);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRemainingTime((prevTime) => prevTime - 10);
-    }, 10);
-
-    return () => clearInterval(interval);
-  }, []);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       onConfirm();
@@ -33,7 +27,8 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
-      <progress value={remainingTime} max={DELAY} />
+
+      <ProgressBar delay={DELAY} />
     </div>
   );
 }
