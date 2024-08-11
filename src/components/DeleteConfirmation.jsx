@@ -1,11 +1,22 @@
 // NPM Packages
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+const DELAY = 3000;
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  const [remainingTime, setRemainingTime] = useState(DELAY);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemainingTime((prevTime) => prevTime - 10);
+    }, 10);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       onConfirm();
-    }, 3000);
+    }, DELAY);
 
     return () => clearTimeout(timer);
   }, [onConfirm]);
@@ -22,6 +33,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+      <progress value={remainingTime} max={DELAY} />
     </div>
   );
 }
